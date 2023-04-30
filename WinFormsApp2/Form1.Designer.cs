@@ -179,30 +179,35 @@
             toolStripMenuItem5.Name = "toolStripMenuItem5";
             toolStripMenuItem5.Size = new Size(69, 20);
             toolStripMenuItem5.Text = "Иначе F5";
+            toolStripMenuItem5.Click += toolStripMenuItem5_Click;
             // 
             // toolStripMenuItem6
             // 
             toolStripMenuItem6.Name = "toolStripMenuItem6";
             toolStripMenuItem6.Size = new Size(62, 20);
             toolStripMenuItem6.Text = "Пока F6";
+            toolStripMenuItem6.Click += toolStripMenuItem6_Click;
             // 
             // toolStripMenuItem7
             // 
             toolStripMenuItem7.Name = "toolStripMenuItem7";
             toolStripMenuItem7.Size = new Size(74, 20);
             toolStripMenuItem7.Text = "Сделай F7";
+            toolStripMenuItem7.Click += toolStripMenuItem7_Click;
             // 
             // toolStripMenuItem8
             // 
             toolStripMenuItem8.Name = "toolStripMenuItem8";
             toolStripMenuItem8.Size = new Size(95, 20);
             toolStripMenuItem8.Text = "Процедура F8";
+            toolStripMenuItem8.Click += toolStripMenuItem8_Click;
             // 
             // toolStripMenuItem9
             // 
             toolStripMenuItem9.Name = "toolStripMenuItem9";
             toolStripMenuItem9.Size = new Size(68, 20);
             toolStripMenuItem9.Text = "Конец F9";
+            toolStripMenuItem9.Click += toolStripMenuItem9_Click;
             // 
             // Form1
             // 

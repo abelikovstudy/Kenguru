@@ -1,7 +1,9 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq.Expressions;
+using System.Windows.Forms;
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 /*
  
@@ -31,7 +33,7 @@ namespace WinFormsApp2
     public partial class Form1 : Form
     {
         int posX = 0, posY = 0;
-        bool draw, textInput = true, elseTextInput = false;
+        bool draw, textInput = true, elseTextInput = false, whileTextInput = false, endTextInput = false, tabCommandInput = false;
         List<Tuple<int, int>> drawingMatrix;
         Kenguru kenguru;
         Intrepretator intp;
@@ -152,132 +154,368 @@ namespace WinFormsApp2
                 render();
             }
         }
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+        private void SwapNames(int type)
+        {
+            switch (type)
+            {
+                case 2:
+                    toolStripMenuItem1.Text = "Шаг F1";
+                    toolStripMenuItem2.Text = "Прыжок F2";
+                    break;
+                case 3:
+                    toolStripMenuItem1.Text = "Шаг F1";
+                    toolStripMenuItem2.Text = "Прыжок F2";
+                    toolStripMenuItem3.Text = "Поворот F3";
+                    break;
+                case 5:
+                    toolStripMenuItem1.Text = "Шаг F1";
+                    toolStripMenuItem2.Text = "Прыжок F2";
+                    toolStripMenuItem3.Text = "Поворот F3";
+                    toolStripMenuItem4.Text = "Если F4";
+                    toolStripMenuItem5.Text = "Иначе F5";
+                    break;
 
+            }
+        }
+
+        private void toolStripMenuPasteText() 
+        {
+            elseTextInput = false;
+            whileTextInput = false;
+            changeVisability(); // В процедуру 
+            toolStripMenuItem3.Visible = true;
+            SwapNames(2);
+        }
+        private void toolStripMenuPasteText(bool isEnd)
+        {
+            endTextInput = false;
+            changeVisability(); // В процедуру 
+            toolStripMenuItem3.Visible = true;
+            SwapNames(3);
+        }
+        private void toolStripTabChangeText()
+        {
+            tabCommandInput = !tabCommandInput;
+
+            SwapNames(5);
+            changeVisability(4, 5);
+        }
+        ///<summary>
+        /// 1 - Если / Пока
+        /// 2 - Конец
+        /// 3 - Tab
+        ///</summary>
+        private void unifiedChangeMenu(int type) 
+        {
+            switch(type) 
+            {
+                case 1:
+                    toolStripMenuPasteText();
+                    break;
+                case 2:
+                    toolStripMenuPasteText(true);
+                    break;
+                case 3:
+                    toolStripTabChangeText();
+                    break;
+            }
+        }
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (!elseTextInput)
+
+            if (elseTextInput || whileTextInput)
             {
-                if (textInput)
-                {
-                    textBox1.Text += "шаг ";
-                }
-                else
-                {
-                    draw = true;
-                    kenguru.step();
-                    Draw();
-                    render();
-                }
+                textBox1.Text += "впереди край то, ";
+                unifiedChangeMenu(1);
+
+            }
+            else if (endTextInput)
+            {
+                textBox1.Text += "ветвления ";
+                unifiedChangeMenu(2);
+            }
+            else if (tabCommandInput) 
+            {
+                unifiedChangeMenu(3);
+                MessageBox.Show("1");
+            }
+            else if (textInput)
+            {
+                textBox1.Text += "шаг ";
             }
             else
             {
-                textBox1.Text += "впереди край то, ";
-                elseTextInput = false;
-                changeVisability(); // В процедуру 
-                toolStripMenuItem3.Visible = true;
-                toolStripMenuItem1.Text = "шаг F1";
-                toolStripMenuItem2.Text = "прыжок F2";
+
+                draw = true;
+                kenguru.step();
+                Draw();
+                render();
             }
 
 
 
-        }
-
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            if (!elseTextInput)
+
+
+            if (elseTextInput || whileTextInput)
             {
-                if (textInput)
-                {
-                    textBox1.Text += "прыжок ";
-                }
-                else
-                {
+                textBox1.Text += "впереди не край то, ";
+                unifiedChangeMenu(1);
+
+
+            }
+            else if (endTextInput)
+            {
+                textBox1.Text += "цикла ";
+                unifiedChangeMenu(2);
+            }
+            else if (tabCommandInput)
+            {
+                unifiedChangeMenu(3);
+                MessageBox.Show("2");
+            }
+            else if (textInput)
+            {
+                textBox1.Text += "прыжок ";
+            }
+            else
+            {
+
                     draw = false;
                     kenguru.jump();
                     Draw();
                     render();
-                }
-
-            }
-            else
-            {
-                textBox1.Text += "впереди не край то, ";
-                elseTextInput = false;
-                changeVisability();   // В процедуру
-                toolStripMenuItem3.Visible = true;
-                toolStripMenuItem1.Text = "шаг F1";
-                toolStripMenuItem2.Text = "прыжок F2";
             }
 
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            if (textInput)
+            if (endTextInput)
+            {
+                textBox1.Text += "процедуры ";
+                unifiedChangeMenu(2);
+            }
+            else if (tabCommandInput)
+            {
+                unifiedChangeMenu(3);
+            }
+            else if (textInput)
             {
                 textBox1.Text += "поворот ";
             }
-            else
+            else 
             {
                 kenguru.Rotate(ref bm);
                 Draw();
                 render();
             }
 
+
+
+
         }
 
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            if (tabCommandInput)
+            {
+                unifiedChangeMenu(3);
+            }
+            else if (textInput)
+            {
+                elseTextInput = true;
+                textBox1.Text += "если ";
+                changeVisability();
+                toolStripMenuItem3.Visible = false;
+                toolStripMenuItem1.Text = "впереди край F1";
+                toolStripMenuItem2.Text = "впереди не край F2";
+
+            }
+
+
+        }
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+
+            if (tabCommandInput)
+            {
+                unifiedChangeMenu(3);
+                
+            }
+            else 
+            {
+                textBox1.Text += "иначе ";
+            }
+
+
+        }
+
+        private void toolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+
+            if (textInput)
+            {
+                whileTextInput = true;
+                textBox1.Text += "пока ";
+                changeVisability();
+                toolStripMenuItem3.Visible = false;
+                toolStripMenuItem1.Text = "впереди край F1";
+                toolStripMenuItem2.Text = "впереди не край F2";
+
+            }
+        }
+
+
+        private void toolStripMenuItem7_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "сделай ";
+
+        }
+        private void toolStripMenuItem8_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "процедура ";
+
+        }
+        private void toolStripMenuItem9_Click(object sender, EventArgs e)
+        {
+            if (textInput)
+            {
+                endTextInput = true;
+                textBox1.Text += "конец ";
+                changeVisability();
+                toolStripMenuItem1.Text = "Ветвления F1";
+                toolStripMenuItem2.Text = "Цикла F2";
+                toolStripMenuItem3.Text = "Процедуры F3";
+
+            }
+
+        }
+
+        private void performeTabControl() 
+        {
+            
+            if (!tabCommandInput)
+            {
+                if (textInput) 
+                {
+                    changeVisability(6, 7, 8, 9);
+                }
+                toolStripMenuItem1.Text = "Пуск F1";
+                toolStripMenuItem2.Text = "Отладка  F2";
+                toolStripMenuItem3.Text = "Установка F3";
+                toolStripMenuItem4.Text = "Разное F4";
+                toolStripMenuItem5.Text = "Результат F5";
+            }
+            else
+            {
+                SwapNames(5);
+            }
+            tabCommandInput = !tabCommandInput;
+            changeVisability(4, 5);
+        }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
         }
 
+        private void PerformeToolsMenuItemClick(Keys key) 
+        {
+            switch(key) 
+            {
+                case Keys.F1:
+                    draw = true;
+                    toolStripMenuItem1.PerformClick();
+                    toolStripMenuItem1.Select();
+                    break;
+                case Keys.F2:
+                    draw = false;
+                    toolStripMenuItem2.PerformClick();
+                    toolStripMenuItem2.Select();
+                    break;
+                case Keys.F3:
+                    toolStripMenuItem3.PerformClick();
+                    toolStripMenuItem3.Select();
+                    break;
+                case Keys.F4:
+                    toolStripMenuItem4.PerformClick();
+                    toolStripMenuItem4.Select();
+                    break;
+                case Keys.F5:
+                    toolStripMenuItem5.PerformClick();
+                    toolStripMenuItem5.Select();
+                    break;
+                case Keys.F6:
+                    toolStripMenuItem6.PerformClick();
+                    toolStripMenuItem6.Select();
+                    break;
+                case Keys.F7:
+                    toolStripMenuItem7.PerformClick();
+                    toolStripMenuItem7.Select();
+                    break;
+                case Keys.F8:
+                    toolStripMenuItem8.PerformClick();
+                    toolStripMenuItem8.Select();
+                    break;
+                case Keys.F9:
+                    toolStripMenuItem9.PerformClick();
+                    toolStripMenuItem9.Select();
+                    break;
+                case Keys.Tab:
+                    
+                    performeTabControl();
+                    break;
+            }
+        }
+
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F3)
-            {
-                toolStripMenuItem3.PerformClick();
-                toolStripMenuItem3.Select();
-            }
-            else if (e.KeyCode == Keys.F1)
-            {
-                draw = true;
-                toolStripMenuItem1.PerformClick();
-                toolStripMenuItem1.Select();
-            }
-            else if (e.KeyCode == Keys.F2)
-            {
-                draw = false;
-                toolStripMenuItem2.PerformClick();
-                toolStripMenuItem2.Select();
-            }
+
+            PerformeToolsMenuItemClick(e.KeyCode);
+
 
         }
 
         private void changeVisability()
         {
-            textInput = !textInput;
-            toolStripMenuItem4.Visible = !toolStripMenuItem4.Visible;
-            toolStripMenuItem5.Visible = !toolStripMenuItem5.Visible;
-            toolStripMenuItem6.Visible = !toolStripMenuItem6.Visible;
-            toolStripMenuItem7.Visible = !toolStripMenuItem7.Visible;
-            toolStripMenuItem8.Visible = !toolStripMenuItem8.Visible;
-            toolStripMenuItem9.Visible = !toolStripMenuItem9.Visible;
+           textInput = !textInput;
+           toolStripMenuItem4.Visible = !toolStripMenuItem4.Visible;
+           toolStripMenuItem5.Visible = !toolStripMenuItem5.Visible;
+           toolStripMenuItem6.Visible = !toolStripMenuItem6.Visible;
+           toolStripMenuItem7.Visible = !toolStripMenuItem7.Visible;
+           toolStripMenuItem8.Visible = !toolStripMenuItem8.Visible;
+           toolStripMenuItem9.Visible = !toolStripMenuItem9.Visible;
+
+        }
+
+        private void changeVisability(params int[] toolMenus)
+        {
+            foreach (int menu in toolMenus) 
+            {
+                ToolStripMenuItem item = menuStrip1.Items
+                .Find("toolStripMenuItem" + menu.ToString(), true)
+                .OfType<ToolStripMenuItem>()
+                .Single();
+                item.Visible = !item.Visible;
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             kenguru.form = this;
-            changeVisability();
+            changeVisability(4,5,6,7,8,9); //
         }
 
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             if (!textInput)
-                changeVisability();
+                changeVisability(4,5,6,7,8,9); //
         }
 
         private void Form1_Click(object sender, EventArgs e)
@@ -298,24 +536,12 @@ namespace WinFormsApp2
 
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            if (textInput)
-            {
-                elseTextInput = true;
-                textBox1.Text += "если ";
-                changeVisability();
-                toolStripMenuItem3.Visible = false;
-                toolStripMenuItem1.Text = "впереди край F1";
-                toolStripMenuItem2.Text = "впереди не край F2";
 
-            }
-
-        }
 
         private void toolStripComboBox1_Click(object sender, EventArgs e)
         {
 
         }
+
     }
 }
