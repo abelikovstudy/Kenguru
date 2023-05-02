@@ -40,6 +40,32 @@ namespace WinFormsApp2
         Bitmap bm;
         Pen pen;
 
+        /// <summary>
+        /// Для использования всегда указывается 9 строк, если строка пустая, кнопка в меню скрывается, иначе ей присваивается текст
+        /// Применение: setMenus("Шаг F1", "Прыжок F2", "Поворот F3")
+        /// </summary>
+        /// <param name="menuLabels">Перечисление надписей для меню</param>
+       private void setMenus(params string[] menuLabels) 
+       {
+            int i = 1;
+            foreach (string text in menuLabels)
+            {
+                ToolStripMenuItem item = menuStrip1.Items
+                .Find("toolStripMenuItem" + i.ToString(), true)
+                .OfType<ToolStripMenuItem>()
+                .Single();
+                if (text == "")
+                {
+                    item.Visible = false;
+                }
+                else 
+                {
+                    item.Visible = true;
+                }
+                item.Text = text;
+                i += 1;
+            }
+        }
 
         /*public static Bitmap Resize(Image image, int width, int height)
         {
@@ -92,6 +118,7 @@ namespace WinFormsApp2
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             if (kenguru.moveUp())
             {
                 Draw();
@@ -133,6 +160,7 @@ namespace WinFormsApp2
                 e.Graphics.DrawRectangle(pen, new Rectangle(point.Item1, point.Item2, 1, 1));
             }
         }
+
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -181,7 +209,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void toolStripMenuPasteText() 
+        private void toolStripMenuPasteText()
         {
             elseTextInput = false;
             whileTextInput = false;
@@ -208,9 +236,9 @@ namespace WinFormsApp2
         /// 2 - Конец
         /// 3 - Tab
         ///</summary>
-        private void unifiedChangeMenu(int type) 
+        private void unifiedChangeMenu(int type)
         {
-            switch(type) 
+            switch (type)
             {
                 case 1:
                     toolStripMenuPasteText();
@@ -237,7 +265,7 @@ namespace WinFormsApp2
                 textBox1.Text += "ветвления ";
                 unifiedChangeMenu(2);
             }
-            else if (tabCommandInput) 
+            else if (tabCommandInput)
             {
                 unifiedChangeMenu(3);
                 MessageBox.Show("1");
@@ -279,6 +307,7 @@ namespace WinFormsApp2
             {
                 unifiedChangeMenu(3);
                 MessageBox.Show("2");
+                
             }
             else if (textInput)
             {
@@ -287,10 +316,10 @@ namespace WinFormsApp2
             else
             {
 
-                    draw = false;
-                    kenguru.jump();
-                    Draw();
-                    render();
+                draw = false;
+                kenguru.jump();
+                Draw();
+                render();
             }
 
         }
@@ -310,7 +339,7 @@ namespace WinFormsApp2
             {
                 textBox1.Text += "поворот ";
             }
-            else 
+            else
             {
                 kenguru.Rotate(ref bm);
                 Draw();
@@ -347,9 +376,9 @@ namespace WinFormsApp2
             if (tabCommandInput)
             {
                 unifiedChangeMenu(3);
-                
+
             }
-            else 
+            else
             {
                 textBox1.Text += "иначе ";
             }
@@ -398,15 +427,11 @@ namespace WinFormsApp2
 
         }
 
-        private void performeTabControl() 
+        private void performeTabControl()
         {
-            
+
             if (!tabCommandInput)
             {
-                if (textInput) 
-                {
-                    changeVisability(6, 7, 8, 9);
-                }
                 toolStripMenuItem1.Text = "Пуск F1";
                 toolStripMenuItem2.Text = "Отладка  F2";
                 toolStripMenuItem3.Text = "Установка F3";
@@ -424,9 +449,9 @@ namespace WinFormsApp2
         {
         }
 
-        private void PerformeToolsMenuItemClick(Keys key) 
+        private void PerformeToolsMenuItemClick(Keys key)
         {
-            switch(key) 
+            switch (key)
             {
                 case Keys.F1:
                     draw = true;
@@ -467,7 +492,10 @@ namespace WinFormsApp2
                     toolStripMenuItem9.Select();
                     break;
                 case Keys.Tab:
-                    
+                    if (textInput)
+                    {
+                        changeVisability();
+                    }
                     performeTabControl();
                     break;
             }
@@ -483,19 +511,19 @@ namespace WinFormsApp2
 
         private void changeVisability()
         {
-           textInput = !textInput;
-           toolStripMenuItem4.Visible = !toolStripMenuItem4.Visible;
-           toolStripMenuItem5.Visible = !toolStripMenuItem5.Visible;
-           toolStripMenuItem6.Visible = !toolStripMenuItem6.Visible;
-           toolStripMenuItem7.Visible = !toolStripMenuItem7.Visible;
-           toolStripMenuItem8.Visible = !toolStripMenuItem8.Visible;
-           toolStripMenuItem9.Visible = !toolStripMenuItem9.Visible;
+            textInput = !textInput;
+            toolStripMenuItem4.Visible = !toolStripMenuItem4.Visible;
+            toolStripMenuItem5.Visible = !toolStripMenuItem5.Visible;
+            toolStripMenuItem6.Visible = !toolStripMenuItem6.Visible;
+            toolStripMenuItem7.Visible = !toolStripMenuItem7.Visible;
+            toolStripMenuItem8.Visible = !toolStripMenuItem8.Visible;
+            toolStripMenuItem9.Visible = !toolStripMenuItem9.Visible;
 
         }
 
         private void changeVisability(params int[] toolMenus)
         {
-            foreach (int menu in toolMenus) 
+            foreach (int menu in toolMenus)
             {
                 ToolStripMenuItem item = menuStrip1.Items
                 .Find("toolStripMenuItem" + menu.ToString(), true)
@@ -509,13 +537,13 @@ namespace WinFormsApp2
         private void Form1_Load(object sender, EventArgs e)
         {
             kenguru.form = this;
-            changeVisability(4,5,6,7,8,9); //
+            changeVisability(); //
         }
 
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             if (!textInput)
-                changeVisability(4,5,6,7,8,9); //
+                changeVisability(); //
         }
 
         private void Form1_Click(object sender, EventArgs e)
