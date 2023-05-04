@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             pictureBox1 = new PictureBox();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            checkBox1 = new CheckBox();
-            groupBox1 = new GroupBox();
             textBox1 = new TextBox();
             menuStrip1 = new MenuStrip();
             toolStripMenuItem1 = new ToolStripMenuItem();
@@ -47,7 +41,6 @@
             toolStripMenuItem8 = new ToolStripMenuItem();
             toolStripMenuItem9 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            groupBox1.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,71 +54,6 @@
             pictureBox1.TabStop = false;
             pictureBox1.Paint += pictureBox1_Paint;
             // 
-            // button1
-            // 
-            button1.Location = new Point(6, 34);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 1;
-            button1.Text = "Вверх";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(6, 63);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 2;
-            button2.Text = "Вниз";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(6, 92);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 3;
-            button3.Text = "Влево";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(6, 121);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 4;
-            button4.Text = "Вправо";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(6, 150);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(76, 19);
-            checkBox1.TabIndex = 5;
-            checkBox1.Text = "Рисовать";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(button1);
-            groupBox1.Controls.Add(checkBox1);
-            groupBox1.Controls.Add(button2);
-            groupBox1.Controls.Add(button4);
-            groupBox1.Controls.Add(button3);
-            groupBox1.Location = new Point(334, 38);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(90, 179);
-            groupBox1.TabIndex = 6;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Панель управления";
-            // 
             // textBox1
             // 
             textBox1.Location = new Point(7, 38);
@@ -135,7 +63,9 @@
             textBox1.TabIndex = 7;
             textBox1.MouseClick += textBox1_MouseClick;
             textBox1.TextChanged += textBox1_TextChanged;
+            textBox1.Enter += textBox1_Enter;
             textBox1.KeyPress += textBox1_KeyPress;
+            textBox1.Leave += textBox1_Leave;
             // 
             // menuStrip1
             // 
@@ -215,7 +145,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1076, 584);
             Controls.Add(textBox1);
-            Controls.Add(groupBox1);
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
             KeyPreview = true;
@@ -228,8 +157,6 @@
             KeyPress += Form1_KeyPress;
             KeyUp += Form1_KeyUp;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -239,12 +166,6 @@
         #endregion
 
         private PictureBox pictureBox1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private CheckBox checkBox1;
-        private GroupBox groupBox1;
         private TextBox textBox1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
