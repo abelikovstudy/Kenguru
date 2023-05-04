@@ -10,86 +10,14 @@ namespace WinFormsApp2
 {
     public partial class Form1 : Form
     {
-        bool draw, textInput = true, elseTextInput = false, whileTextInput = false, endTextInput = false, tabCommandInput = false;
-        enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, TabControl };
+        bool draw, tabulation;
+        enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, EndCommandControl, TabControl };
         List<Action> functions = new List<Action>();
         List<Tuple<int, int>> drawingMatrix;
         Kenguru kenguru;
         Intrepretator intp;
         Bitmap bm;
         Pen pen;
-
-
-        private void step() 
-        {
-            draw = true;
-            kenguru.step();
-            Draw();
-            render();
-        }
-
-
-        private void setMenus(MenuControl control,params string[] menuLabels)
-        {
-            int i = 0;
-            foreach (ToolStripMenuItem item in menuStrip1.Items)
-            {
-                if (menuLabels[i] == "")
-                {
-                    item.Visible = false;
-                }
-                else 
-                {
-                    item.Visible = true;
-                    item.Text = menuLabels[i];
-                }
-                i += 1;
-            }
-
-            switch (control) 
-            {
-                case MenuControl.MoveControl:
-                    functions[0] = step;
-                    break;
-                case MenuControl.TextControl:
-                    functions[0] = () => { textBox1.Text += "шаг "; };
-                    break;
-                case MenuControl.ElseControl:
-                    functions[0] = () => { textBox1.Text += "впереди край то,  "; };
-                    break;
-                case MenuControl.WhileControl:
-                    functions[0] = () => { textBox1.Text += "впереди край то,  "; };
-                    break;
-                case MenuControl.TabControl:
-                    functions[0] = () => { };
-                    break;
-
-            }
-
-        }
-        public Form1()
-        {
-            drawingMatrix = new List<Tuple<int, int>>();
-            draw = false;
-            bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
-            bm.MakeTransparent(Color.White);
-            pen = new Pen(Color.Red, 1);
-            InitializeComponent();
-            kenguru = new Kenguru(pictureBox1.Size.Width, pictureBox1.Size.Height);
-            intp = new Intrepretator();
-        }
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            for(int i = 0;i < 9;i++) 
-            {
-                functions.Add(() => { });
-            }
-
-            setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
-            kenguru.form = this;
-        }
 
         public void render()
         {
@@ -99,6 +27,143 @@ namespace WinFormsApp2
         {
             if (draw)
                 drawingMatrix.Add(new Tuple<int, int>(kenguru.posX, kenguru.posY));
+        }
+        private void step()
+        {
+            draw = true;
+            kenguru.step();
+            Draw();
+            render();
+        }
+        private void jump()
+        {
+            draw = false;
+            kenguru.jump();
+            Draw();
+            render();
+        }
+        private void turn()
+        {
+            kenguru.Rotate(ref bm);
+            Draw();
+            render();
+
+        }
+        private void setMenus(MenuControl control, params string[] menuLabels)
+        {
+            int i = 0;
+            foreach (ToolStripMenuItem item in menuStrip1.Items)
+            {
+                if (menuLabels[i] == "")
+                {
+                    item.Visible = false;
+                }
+                else
+                {
+                    item.Visible = true;
+                    item.Text = menuLabels[i];
+                }
+                i += 1;
+            }
+
+            switch (control)
+            {
+                case MenuControl.MoveControl:
+                    functions[0] = step;
+                    functions[1] = jump;
+                    functions[2] = turn;
+                    break;
+                case MenuControl.TextControl:
+                    functions[0] = () => { textBox1.Text += "шаг "; };
+                    functions[1] = () => { textBox1.Text += "прыжок "; };
+                    functions[2] = () => { textBox1.Text += "поворот "; };
+                    functions[3] = () => { textBox1.Text += "если "; };
+                    functions[4] = () => { textBox1.Text += "иначе "; };
+                    functions[5] = () => { textBox1.Text += "пока "; };
+                    functions[6] = () => { textBox1.Text += "сделай "; };
+                    functions[7] = () => { textBox1.Text += "процедура "; };
+                    functions[8] = () => { textBox1.Text += "конец "; };
+                    break;
+                case MenuControl.ElseControl:
+                    functions[0] = () => { textBox1.Text += "впереди край то, "; };
+                    functions[1] = () => { textBox1.Text += "впереди не край то, "; };
+                    functions[2] = () => { };
+                    functions[3] = () => { };
+                    functions[4] = () => { };
+                    functions[5] = () => { };
+                    functions[6] = () => { };
+                    functions[7] = () => { };
+                    functions[8] = () => { };
+                    break;
+                case MenuControl.WhileControl:
+                    functions[0] = () => { textBox1.Text += "впереди край то, "; };
+                    functions[1] = () => { textBox1.Text += "впереди не край то, "; };
+                    functions[2] = () => { };
+                    functions[3] = () => { };
+                    functions[4] = () => { };
+                    functions[5] = () => { };
+                    functions[6] = () => { };
+                    functions[7] = () => { };
+                    functions[8] = () => { };
+                    break;
+
+                case MenuControl.EndCommandControl:
+                    functions[0] = () => { textBox1.Text += "ветвления "; };
+                    functions[1] = () => { textBox1.Text += "цикла "; };
+                    functions[2] = () => { textBox1.Text += "процедуры "; };
+                    functions[3] = () => { };
+                    functions[4] = () => { };
+                    functions[5] = () => { };
+                    functions[6] = () => { };
+                    functions[7] = () => { };
+                    functions[8] = () => { };
+                    break;
+                case MenuControl.TabControl:
+                    functions[0] = () => { MessageBox.Show("1"); };
+                    functions[1] = () => { MessageBox.Show("2"); };
+                    functions[2] = () => { MessageBox.Show("3"); };
+                    functions[3] = () => { MessageBox.Show("4"); };
+                    functions[4] = () => { MessageBox.Show("5"); };
+                    functions[5] = () => { };
+                    functions[6] = () => { };
+                    functions[7] = () => { };
+                    functions[8] = () => { };
+                    break;
+
+            }
+
+        }
+        private void performeTabControl()
+        {
+            tabulation = !tabulation;
+            if(tabulation)
+                setMenus(MenuControl.TabControl, "Пуск F1", "Отладка F2", "Установка F3", "Разное F4", "Результат F5", "", "", "", "");
+            else
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+        }
+        public Form1()
+        {
+            drawingMatrix = new List<Tuple<int, int>>();
+
+            draw = false;
+            tabulation = false;
+
+            bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
+            bm.MakeTransparent(Color.White);
+            pen = new Pen(Color.Red, 1);
+            InitializeComponent();
+            kenguru = new Kenguru(pictureBox1.Size.Width, pictureBox1.Size.Height);
+            intp = new Intrepretator();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                functions.Add(() => { });
+            }
+
+            setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
+            kenguru.form = this;
         }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -113,10 +178,6 @@ namespace WinFormsApp2
         {
             draw = !draw;
         }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
 
@@ -127,199 +188,42 @@ namespace WinFormsApp2
                 render();
             }
         }
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
             functions[0]();
-            /*
-            if (elseTextInput || whileTextInput)
-            {
-                textBox1.Text += "впереди край то, ";
-
-            }
-            else if (endTextInput)
-            {
-                textBox1.Text += "ветвления ";
-            }
-            else if (tabCommandInput)
-            {
-                MessageBox.Show("1");
-            }
-            else if (textInput)
-            {
-                textBox1.Text += "шаг ";
-            }
-            else
-            {
-
-                draw = true;
-                kenguru.step();
-                Draw();
-                render();
-            }
-            */
-
-
         }
-
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-
-
-            if (elseTextInput || whileTextInput)
-            {
-                textBox1.Text += "впереди не край то, ";
-
-
-            }
-            else if (endTextInput)
-            {
-                textBox1.Text += "цикла ";
-            }
-            else if (tabCommandInput)
-            {
-                MessageBox.Show("2");
-
-            }
-            else if (textInput)
-            {
-                textBox1.Text += "прыжок ";
-            }
-            else
-            {
-
-                draw = false;
-                kenguru.jump();
-                Draw();
-                render();
-            }
-
+            functions[1]();
         }
-
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            if (endTextInput)
-            {
-                textBox1.Text += "процедуры ";
-            }
-            else if (tabCommandInput)
-            {
-
-            }
-            else if (textInput)
-            {
-                textBox1.Text += "поворот ";
-            }
-            else
-            {
-                kenguru.Rotate(ref bm);
-                Draw();
-                render();
-            }
-
-
-
-
+            functions[2]();
         }
-
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            if (tabCommandInput)
-            {
-
-            }
-            else if (textInput)
-            {
-                elseTextInput = true;
-                textBox1.Text += "если ";
-                ;
-                toolStripMenuItem3.Visible = false;
-                toolStripMenuItem1.Text = "впереди край F1";
-                toolStripMenuItem2.Text = "впереди не край F2";
-
-            }
-
-
+            functions[3]();
         }
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
-
-            if (tabCommandInput)
-            {
-
-
-            }
-            else
-            {
-                textBox1.Text += "иначе ";
-            }
-
-
+            functions[4]();
         }
-
         private void toolStripMenuItem6_Click(object sender, EventArgs e)
         {
-
-            if (textInput)
-            {
-                whileTextInput = true;
-                textBox1.Text += "пока ";
-                ;
-                toolStripMenuItem3.Visible = false;
-                toolStripMenuItem1.Text = "впереди край F1";
-                toolStripMenuItem2.Text = "впереди не край F2";
-
-            }
+            functions[5]();
         }
-
-
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
-            textBox1.Text += "сделай ";
-
+            functions[6]();
         }
         private void toolStripMenuItem8_Click(object sender, EventArgs e)
         {
-            textBox1.Text += "процедура ";
-
+            functions[7]();
         }
         private void toolStripMenuItem9_Click(object sender, EventArgs e)
         {
-            if (textInput)
-            {
-                endTextInput = true;
-                textBox1.Text += "конец ";
-                toolStripMenuItem1.Text = "Ветвления F1";
-                toolStripMenuItem2.Text = "Цикла F2";
-                toolStripMenuItem3.Text = "Процедуры F3";
-
-            }
-
+            functions[8]();
         }
-
-        private void performeTabControl()
-        {
-
-            if (!tabCommandInput)
-            {
-                toolStripMenuItem1.Text = "Пуск F1";
-                toolStripMenuItem2.Text = "Отладка  F2";
-                toolStripMenuItem3.Text = "Установка F3";
-                toolStripMenuItem4.Text = "Разное F4";
-                toolStripMenuItem5.Text = "Результат F5";
-            }
-            else
-            {
-            }
-            tabCommandInput = !tabCommandInput;
-        }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-        }
-
         private void PerformeToolsMenuItemClick(Keys key)
         {
             switch (key)
@@ -367,40 +271,25 @@ namespace WinFormsApp2
                     break;
             }
         }
-
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-
             PerformeToolsMenuItemClick(e.KeyCode);
-
-
         }
-
-
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            setMenus(MenuControl.ElseControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
         }
-
         private void Form1_Click(object sender, EventArgs e)
         {
             if (textBox1.Text != "")
             {
                 MessageBox.Show("Ай-яй-яй!");
             }
-            else 
+            else
             {
                 setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
             }
 
-        }
-
-        private void textBox1_Enter(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox1_Leave(object sender, EventArgs e)
-        {
         }
     }
 }

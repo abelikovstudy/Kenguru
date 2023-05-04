@@ -62,10 +62,6 @@
             textBox1.Size = new Size(283, 534);
             textBox1.TabIndex = 7;
             textBox1.MouseClick += textBox1_MouseClick;
-            textBox1.TextChanged += textBox1_TextChanged;
-            textBox1.Enter += textBox1_Enter;
-            textBox1.KeyPress += textBox1_KeyPress;
-            textBox1.Leave += textBox1_Leave;
             // 
             // menuStrip1
             // 
@@ -153,8 +149,6 @@
             Text = "Form1";
             Load += Form1_Load;
             Click += Form1_Click;
-            KeyDown += Form1_KeyDown;
-            KeyPress += Form1_KeyPress;
             KeyUp += Form1_KeyUp;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuStrip1.ResumeLayout(false);
