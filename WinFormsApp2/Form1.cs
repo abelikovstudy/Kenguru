@@ -108,9 +108,9 @@ namespace WinFormsApp2
                     break;
 
                 case MenuControl.EndCommandControl:
-                    functions[0] = () => { textBox1.Text += "ветвления "; };
-                    functions[1] = () => { textBox1.Text += "цикла "; };
-                    functions[2] = () => { textBox1.Text += "процедуры "; };
+                    functions[0] = () => { textBox1.Text += "конец ветвления "; };
+                    functions[1] = () => { textBox1.Text += "конец цикла "; };
+                    functions[2] = () => { textBox1.Text += "конец процедуры "; };
                     functions[3] = () => { };
                     functions[4] = () => { };
                     functions[5] = () => { };
@@ -149,7 +149,7 @@ namespace WinFormsApp2
             tabulation = false;
             elseCondition = false;
             whileCondition = false;
-
+            elseCondition = false;
 
             bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
             bm.MakeTransparent(Color.White);
@@ -204,6 +204,11 @@ namespace WinFormsApp2
                 whileCondition = false;
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
             }
+            if (endCondition) 
+            {
+                endCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
 
         }
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -219,10 +224,20 @@ namespace WinFormsApp2
                 whileCondition = false;
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
             }
+            if (endCondition)
+            {
+                endCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
         }
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             functions[2]();
+            if (endCondition)
+            {
+                endCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
         }
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
@@ -266,6 +281,15 @@ namespace WinFormsApp2
         }
         private void toolStripMenuItem9_Click(object sender, EventArgs e)
         {
+            endCondition = !endCondition;
+            if (endCondition)
+            {
+                setMenus(MenuControl.EndCommandControl, "ветвления F1", "цикла F2", "процедуры F3", "", "", "", "", "", "");
+            }
+            else
+            {
+                setMenus(MenuControl.EndCommandControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
             functions[8]();
         }
         private void PerformeToolsMenuItemClick(Keys key)
