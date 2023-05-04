@@ -10,7 +10,7 @@ namespace WinFormsApp2
 {
     public partial class Form1 : Form
     {
-        bool draw, tabulation;
+        bool draw, tabulation, elseCondition, whileCondition, endCondition;
         enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, EndCommandControl, TabControl };
         List<Action> functions = new List<Action>();
         List<Tuple<int, int>> drawingMatrix;
@@ -85,8 +85,8 @@ namespace WinFormsApp2
                     functions[8] = () => { textBox1.Text += "конец "; };
                     break;
                 case MenuControl.ElseControl:
-                    functions[0] = () => { textBox1.Text += "впереди край то, "; };
-                    functions[1] = () => { textBox1.Text += "впереди не край то, "; };
+                    functions[0] = () => { textBox1.Text += "если впереди край то, "; };
+                    functions[1] = () => { textBox1.Text += "если впереди не край то, "; };
                     functions[2] = () => { };
                     functions[3] = () => { };
                     functions[4] = () => { };
@@ -96,8 +96,8 @@ namespace WinFormsApp2
                     functions[8] = () => { };
                     break;
                 case MenuControl.WhileControl:
-                    functions[0] = () => { textBox1.Text += "впереди край то, "; };
-                    functions[1] = () => { textBox1.Text += "впереди не край то, "; };
+                    functions[0] = () => { textBox1.Text += "пока впереди край то, "; };
+                    functions[1] = () => { textBox1.Text += "пока впереди не край то, "; };
                     functions[2] = () => { };
                     functions[3] = () => { };
                     functions[4] = () => { };
@@ -147,6 +147,9 @@ namespace WinFormsApp2
 
             draw = false;
             tabulation = false;
+            elseCondition = false;
+            whileCondition = false;
+
 
             bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
             bm.MakeTransparent(Color.White);
@@ -191,10 +194,31 @@ namespace WinFormsApp2
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             functions[0]();
+            if (elseCondition) 
+            {
+                elseCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
+            if (whileCondition)
+            {
+                whileCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
+
         }
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             functions[1]();
+            if (elseCondition)
+            {
+                elseCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
+            if (whileCondition)
+            {
+                whileCondition = false;
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
         }
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
@@ -202,7 +226,18 @@ namespace WinFormsApp2
         }
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
+            elseCondition = !elseCondition;
+            if (elseCondition)
+            {
+                setMenus(MenuControl.ElseControl, "впереди край то F1", "впереди не край то F2", "", "", "", "", "", "", "");
+            }
+            else 
+            {
+                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
+
             functions[3]();
+
         }
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
@@ -210,6 +245,15 @@ namespace WinFormsApp2
         }
         private void toolStripMenuItem6_Click(object sender, EventArgs e)
         {
+            whileCondition = !whileCondition;
+            if (whileCondition)
+            {
+                setMenus(MenuControl.WhileControl, "впереди край то F1", "впереди не край то F2", "", "", "", "", "", "", "");
+            }
+            else
+            {
+                setMenus(MenuControl.WhileControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            }
             functions[5]();
         }
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
