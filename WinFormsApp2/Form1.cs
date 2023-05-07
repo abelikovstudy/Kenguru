@@ -78,7 +78,7 @@ namespace WinFormsApp2
                     functions[1] = () => { textBox1.Text += "прыжок" + Environment.NewLine; };
                     functions[2] = () => { textBox1.Text += "поворот" + Environment.NewLine; };
                     functions[3] = () => { textBox1.Text += "если"; };
-                    functions[4] = () => { textBox1.Text += "иначе "; };
+                    functions[4] = () => { textBox1.Text += "иначе" + Environment.NewLine; };
                     functions[5] = () => { textBox1.Text += "пока" + Environment.NewLine; };
                     functions[6] = () => { textBox1.Text += "сделай" + Environment.NewLine; };
                     functions[7] = () => { textBox1.Text += "процедура" + Environment.NewLine; };

@@ -15,7 +15,6 @@ namespace WinFormsApp2
         public int posX { get; set; }
         public int posY { get; set; }
 
-        public bool isEgde { get; set; }
 
         public enum directions { U, D, L, R };
         private directions currentDirection = directions.R;
@@ -33,25 +32,45 @@ namespace WinFormsApp2
 
         }
 
+        public bool isEdge() 
+        {
+            switch (currentDirection) 
+            {
+                case directions.U:
+                    if (posY <= 32) return true;
+                    else return false;
+                case directions.D:
+                    if (posY >= fieldHeight - 32) return true;
+                    else return false;
+                case directions.L:
+                    if (posX <= 32) return true;
+                    else return false;
+                case directions.R:
+                    if (posX >= fieldWidth - 32) return true;
+                    else return false;
+                default: return false;
+            }
+        }
+
         public void Rotate(ref Bitmap bm) 
         {
             switch (currentDirection) {
 
                 case directions.U:
-                    currentDirection = directions.R;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
-                    break; 
-                case directions.D:
                     currentDirection = directions.L;
                     bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteLeft, 32, 32);
                     break; 
+                case directions.D:
+                    currentDirection = directions.R;
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
+                    break; 
                 case directions.L:
-                    currentDirection= directions.U;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteUp, 32, 32);
+                    currentDirection= directions.D;
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteDown, 32, 32);
                     break;
                 case directions.R:
-                    currentDirection = directions.D;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteDown, 32, 32);
+                    currentDirection = directions.U;
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteUp, 32, 32);
                     break;
             }
             bm.MakeTransparent(Color.White);
@@ -66,7 +85,7 @@ namespace WinFormsApp2
                     for(int i = 0; i < 10; ++i) 
                     {
                         Thread.Sleep(5);
-                        isEgde = moveUp();
+                        moveUp();
                         form.Draw();
                     }
                     break;
@@ -74,7 +93,7 @@ namespace WinFormsApp2
                     for (int i = 0; i < 10; ++i)
                     {
                         Thread.Sleep(5);
-                        isEgde = moveDown();
+                        moveDown();
                         form.Draw();
                     }
                     break;
@@ -82,7 +101,7 @@ namespace WinFormsApp2
                     for (int i = 0; i < 10; ++i)
                     {
                         Thread.Sleep(5);
-                        isEgde = moveLeft();
+                        moveLeft();
                         form.Draw();
                     }
                     break;
@@ -90,7 +109,7 @@ namespace WinFormsApp2
                     for (int i = 0; i < 10; ++i)
                     {
                         Thread.Sleep(5);
-                        isEgde = moveRight();
+                        moveRight();
                         form.Draw();
                     }
                     break;
@@ -105,25 +124,25 @@ namespace WinFormsApp2
                     for (int i = 0; i < 10; ++i)
                     {
 
-                        isEgde = moveUp();
+                        moveUp();
                     }
                     break;
                 case directions.D:
                     for (int i = 0; i < 10; ++i)
                     {
-                        isEgde = moveDown();
+                        moveDown();
                     }
                     break;
                 case directions.L:
                     for (int i = 0; i < 10; ++i)
                     {
-                        isEgde = moveLeft();
+                         moveLeft();
                     }
                     break;
                 case directions.R:
                     for (int i = 0; i < 10; ++i)
                     {
-                        isEgde = moveRight();
+                       moveRight();
                     }
                     break;
             }
