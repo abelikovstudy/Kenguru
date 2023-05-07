@@ -15,6 +15,8 @@ namespace WinFormsApp2
         public int posX { get; set; }
         public int posY { get; set; }
 
+        public bool isEgde { get; set; }
+
         public enum directions { U, D, L, R };
         private directions currentDirection = directions.R;
         public int fieldHeight {  get; set; }
@@ -63,29 +65,32 @@ namespace WinFormsApp2
                 case directions.U:
                     for(int i = 0; i < 10; ++i) 
                     {
-                        
-                        moveUp();
+                        Thread.Sleep(5);
+                        isEgde = moveUp();
                         form.Draw();
                     }
                     break;
                 case directions.D:
                     for (int i = 0; i < 10; ++i)
                     {
-                        moveDown();
+                        Thread.Sleep(5);
+                        isEgde = moveDown();
                         form.Draw();
                     }
                     break;
                 case directions.L:
                     for (int i = 0; i < 10; ++i)
                     {
-                        moveLeft();
+                        Thread.Sleep(5);
+                        isEgde = moveLeft();
                         form.Draw();
                     }
                     break;
                 case directions.R:
                     for (int i = 0; i < 10; ++i)
                     {
-                        moveRight();
+                        Thread.Sleep(5);
+                        isEgde = moveRight();
                         form.Draw();
                     }
                     break;
@@ -100,25 +105,25 @@ namespace WinFormsApp2
                     for (int i = 0; i < 10; ++i)
                     {
 
-                        moveUp();
+                        isEgde = moveUp();
                     }
                     break;
                 case directions.D:
                     for (int i = 0; i < 10; ++i)
                     {
-                        moveDown();
+                        isEgde = moveDown();
                     }
                     break;
                 case directions.L:
                     for (int i = 0; i < 10; ++i)
                     {
-                        moveLeft();
+                        isEgde = moveLeft();
                     }
                     break;
                 case directions.R:
                     for (int i = 0; i < 10; ++i)
                     {
-                        moveRight();
+                        isEgde = moveRight();
                     }
                     break;
             }

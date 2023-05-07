@@ -11,8 +11,31 @@ namespace WinFormsApp2
         public Intrepretator() 
         {
         }
-        public void execute(string commandInput, ref Kenguru ken, ref Bitmap bm) 
+
+        private enum Conditions { InIfStatment, InWhileStatement, InElseStatment, InProcedure }
+
+        static public void execute(string commandInput, ref Kenguru ken, ref Bitmap bm, ref PictureBox pb)
         {
+            foreach (string cmd in commandInput.Split(new string[] { Environment.NewLine },StringSplitOptions.None)) 
+            {
+                switch(cmd) 
+                {
+                    case "шаг":
+                        ken.step();
+                        break;
+                    case "прыжок":
+                        ken.jump(); 
+                        break;
+                    case "поворот":
+                        ken.Rotate(ref bm); 
+                        break;
+                    case "если впереди край то,":
+                        continue;
+                    default:
+                        break;
+                }
+                pb.Refresh();
+            }
         }
     }
 }

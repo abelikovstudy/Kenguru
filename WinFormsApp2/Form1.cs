@@ -74,19 +74,19 @@ namespace WinFormsApp2
                     functions[2] = turn;
                     break;
                 case MenuControl.TextControl:
-                    functions[0] = () => { textBox1.Text += "шаг "; };
-                    functions[1] = () => { textBox1.Text += "прыжок "; };
-                    functions[2] = () => { textBox1.Text += "поворот "; };
-                    functions[3] = () => { textBox1.Text += "если "; };
+                    functions[0] = () => { textBox1.Text += "шаг" + Environment.NewLine; };
+                    functions[1] = () => { textBox1.Text += "прыжок" + Environment.NewLine; };
+                    functions[2] = () => { textBox1.Text += "поворот" + Environment.NewLine; };
+                    functions[3] = () => { textBox1.Text += "если"; };
                     functions[4] = () => { textBox1.Text += "иначе "; };
-                    functions[5] = () => { textBox1.Text += "пока "; };
-                    functions[6] = () => { textBox1.Text += "сделай "; };
-                    functions[7] = () => { textBox1.Text += "процедура "; };
-                    functions[8] = () => { textBox1.Text += "конец "; };
+                    functions[5] = () => { textBox1.Text += "пока" + Environment.NewLine; };
+                    functions[6] = () => { textBox1.Text += "сделай" + Environment.NewLine; };
+                    functions[7] = () => { textBox1.Text += "процедура" + Environment.NewLine; };
+                    functions[8] = () => { textBox1.Text += "конец" + Environment.NewLine; };
                     break;
                 case MenuControl.ElseControl:
-                    functions[0] = () => { textBox1.Text += "если впереди край то, "; };
-                    functions[1] = () => { textBox1.Text += "если впереди не край то, "; };
+                    functions[0] = () => { textBox1.Text += "если впереди край то," + Environment.NewLine; };
+                    functions[1] = () => { textBox1.Text += "если впереди не край то, " + Environment.NewLine; };
                     functions[2] = () => { };
                     functions[3] = () => { };
                     functions[4] = () => { };
@@ -96,8 +96,8 @@ namespace WinFormsApp2
                     functions[8] = () => { };
                     break;
                 case MenuControl.WhileControl:
-                    functions[0] = () => { textBox1.Text += "пока впереди край то, "; };
-                    functions[1] = () => { textBox1.Text += "пока впереди не край то, "; };
+                    functions[0] = () => { textBox1.Text += "пока впереди край то, " + Environment.NewLine; };
+                    functions[1] = () => { textBox1.Text += "пока впереди не край то, " + Environment.NewLine; };
                     functions[2] = () => { };
                     functions[3] = () => { };
                     functions[4] = () => { };
@@ -108,9 +108,9 @@ namespace WinFormsApp2
                     break;
 
                 case MenuControl.EndCommandControl:
-                    functions[0] = () => { textBox1.Text += "конец ветвления "; };
-                    functions[1] = () => { textBox1.Text += "конец цикла "; };
-                    functions[2] = () => { textBox1.Text += "конец процедуры "; };
+                    functions[0] = () => { textBox1.Text += "конец ветвления " + Environment.NewLine; };
+                    functions[1] = () => { textBox1.Text += "конец цикла " + Environment.NewLine; };
+                    functions[2] = () => { textBox1.Text += "конец процедуры " + Environment.NewLine; };
                     functions[3] = () => { };
                     functions[4] = () => { };
                     functions[5] = () => { };
@@ -119,7 +119,7 @@ namespace WinFormsApp2
                     functions[8] = () => { };
                     break;
                 case MenuControl.TabControl:
-                    functions[0] = () => { MessageBox.Show("1"); };
+                    functions[0] = () => { Intrepretator.execute(textBox1.Text, ref kenguru, ref bm, ref pictureBox1); };
                     functions[1] = () => { MessageBox.Show("2"); };
                     functions[2] = () => { MessageBox.Show("3"); };
                     functions[3] = () => { MessageBox.Show("4"); };
@@ -186,7 +186,7 @@ namespace WinFormsApp2
 
             if (e.KeyChar == (char)Keys.Return)
             {
-                intp.execute(textBox1.Text, ref kenguru, ref bm);
+                //intp.execute(textBox1.Text, ref kenguru, ref bm);
                 Draw();
                 render();
             }
