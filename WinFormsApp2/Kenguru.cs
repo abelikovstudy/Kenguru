@@ -17,7 +17,7 @@ namespace WinFormsApp2
 
 
         public enum directions { U, D, L, R };
-        private directions currentDirection = directions.R;
+        public directions currentDirection = directions.R;
         public int fieldHeight {  get; set; }
         public int fieldWidth { get; set; }
 
@@ -58,19 +58,22 @@ namespace WinFormsApp2
 
                 case directions.U:
                     currentDirection = directions.L;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteLeft, 32, 32);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruLeft, 48, 48);
                     break; 
                 case directions.D:
                     currentDirection = directions.R;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruRight, 48, 48);
                     break; 
                 case directions.L:
                     currentDirection= directions.D;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteDown, 32, 32);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruDown, 48, 48);
                     break;
                 case directions.R:
                     currentDirection = directions.U;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteUp, 32, 32);
+                    posX -= 8;
+                    posY -= 28;
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruUp, 48, 48);
+
                     break;
             }
             bm.MakeTransparent(Color.White);

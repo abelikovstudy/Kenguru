@@ -26,7 +26,21 @@ namespace WinFormsApp2
         public void Draw()
         {
             if (draw)
-                drawingMatrix.Add(new Tuple<int, int>(kenguru.posX, kenguru.posY));
+                switch (kenguru.currentDirection) 
+                {
+                    case Kenguru.directions.R:
+                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX - 10 , kenguru.posY + 25));
+                        break;                    
+                    case Kenguru.directions.L:
+                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 20, kenguru.posY + 25));
+                        break;                    
+                    case Kenguru.directions.U:
+                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 8 , kenguru.posY + 28));
+                        break;                    
+                    case Kenguru.directions.D:
+                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 20, kenguru.posY + 20));
+                        break;
+                }
         }
         private void step()
         {
@@ -136,7 +150,7 @@ namespace WinFormsApp2
         private void performeTabControl()
         {
             tabulation = !tabulation;
-            if(tabulation)
+            if (tabulation)
                 setMenus(MenuControl.TabControl, "Пуск F1", "Отладка F2", "Установка F3", "Разное F4", "Результат F5", "", "", "", "");
             else
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
@@ -151,7 +165,7 @@ namespace WinFormsApp2
             whileCondition = false;
             elseCondition = false;
 
-            bm = new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 32, 32);
+            bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruRight, 48, 48);
             bm.MakeTransparent(Color.White);
             pen = new Pen(Color.Red, 1);
             InitializeComponent();
@@ -194,7 +208,7 @@ namespace WinFormsApp2
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             functions[0]();
-            if (elseCondition) 
+            if (elseCondition)
             {
                 elseCondition = false;
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
@@ -204,7 +218,7 @@ namespace WinFormsApp2
                 whileCondition = false;
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
             }
-            if (endCondition) 
+            if (endCondition)
             {
                 endCondition = false;
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
@@ -246,7 +260,7 @@ namespace WinFormsApp2
             {
                 setMenus(MenuControl.ElseControl, "впереди край то F1", "впереди не край то F2", "", "", "", "", "", "", "");
             }
-            else 
+            else
             {
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
             }
@@ -357,6 +371,11 @@ namespace WinFormsApp2
             {
                 setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
             }
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
         }
     }

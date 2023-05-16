@@ -52,6 +52,7 @@
             pictureBox1.Size = new Size(623, 534);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             pictureBox1.Paint += pictureBox1_Paint;
             // 
             // textBox1
