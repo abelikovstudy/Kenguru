@@ -15,26 +15,41 @@ namespace WinFormsApp2
         public int posX { get; set; }
         public int posY { get; set; }
 
+        public List<Bitmap> currentSprites = new List<Bitmap>(4);
+        public List<Bitmap> kenguruSprites = new List<Bitmap>(4);
+        public List<Bitmap> arrowSprites = new List<Bitmap>();
 
         public enum directions { U, D, L, R };
         public directions currentDirection = directions.R;
-        public int fieldHeight {  get; set; }
+        public int fieldHeight { get; set; }
         public int fieldWidth { get; set; }
 
-        public Kenguru(int _width, int _height) 
+        public Kenguru(int _width, int _height)
         {
 
             posX = 32;
             posY = 32;
             fieldHeight = _height;
             fieldWidth = _width;
+            kenguruSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.CkenguruLeft, 82, 82));
+            kenguruSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.CkenguruRight, 82, 82));
+            kenguruSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.CkenguruDown, 82, 82));
+            kenguruSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.CkenguruUp, 82, 82));
 
+            arrowSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.spriteLeft, 41, 41));
+            arrowSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.spriteRight, 41, 41));
+            arrowSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.spriteDown, 41, 41));
+            arrowSprites.Add(new Bitmap(WinFormsApp2.Properties.Resources.spriteUp, 41, 41));
 
+            currentSprites.Add(kenguruSprites[0]);
+            currentSprites.Add(kenguruSprites[1]);
+            currentSprites.Add(kenguruSprites[2]);
+            currentSprites.Add(kenguruSprites[3]);
         }
 
-        public bool isEdge() 
+        public bool isEdge()
         {
-            switch (currentDirection) 
+            switch (currentDirection)
             {
                 case directions.U:
                     if (posY <= 32) return true;
@@ -52,25 +67,25 @@ namespace WinFormsApp2
             }
         }
 
-        public void Rotate(ref Bitmap bm) 
+        public void Rotate(ref Bitmap bm)
         {
             switch (currentDirection) {
 
                 case directions.U:
                     currentDirection = directions.L;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruLeft, 82, 82);
-                    break; 
+                    bm = currentSprites[0];
+                    break;
                 case directions.D:
                     currentDirection = directions.R;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruRight, 82, 82);
-                    break; 
+                    bm = currentSprites[1];
+                    break;
                 case directions.L:
-                    currentDirection= directions.D;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruDown, 82, 82);
+                    currentDirection = directions.D;
+                    bm = currentSprites[2];
                     break;
                 case directions.R:
                     currentDirection = directions.U;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruUp, 82, 82);
+                    bm = currentSprites[3];
 
                     break;
             }

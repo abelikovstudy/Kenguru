@@ -10,7 +10,7 @@ namespace WinFormsApp2
 {
     public partial class Form1 : Form
     {
-        bool draw, tabulation, elseCondition, whileCondition, endCondition;
+        bool draw, tabulation, elseCondition, whileCondition, endCondition, textInput, isPositioning;
         enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, EndCommandControl, TabControl };
         List<Action> functions = new List<Action>();
         List<Tuple<int, int>> drawingMatrix;
@@ -27,8 +27,6 @@ namespace WinFormsApp2
         {
             if (draw)
                      drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 25, kenguru.posY + 25));
-
-
         }
         private void step()
         {
@@ -123,7 +121,14 @@ namespace WinFormsApp2
                 case MenuControl.TabControl:
                     functions[0] = () => { Intrepretator.execute(textBox1.Text, ref kenguru, ref bm, ref pictureBox1); };
                     functions[1] = () => { MessageBox.Show("2"); };
-                    functions[2] = () => { MessageBox.Show("3"); };
+                    functions[2] = () => {
+                        isPositioning = true;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            kenguru.currentSprites[i] = kenguru.arrowSprites[i];
+                            turn();
+                        }
+                    };
                     functions[3] = () => { MessageBox.Show("4"); };
                     functions[4] = () => { MessageBox.Show("5"); };
                     functions[5] = () => { };
@@ -140,8 +145,19 @@ namespace WinFormsApp2
             tabulation = !tabulation;
             if (tabulation)
                 setMenus(MenuControl.TabControl, "Пуск F1", "Отладка F2", "Установка F3", "Разное F4", "Результат F5", "", "", "", "");
-            else
-                setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+            else 
+            {
+                if (textBox1.Text != "" || textInput)
+                {
+                    setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
+                }
+                else 
+                {
+
+                    setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
+                }
+            }
+
         }
         public Form1()
         {
@@ -152,6 +168,8 @@ namespace WinFormsApp2
             elseCondition = false;
             whileCondition = false;
             elseCondition = false;
+            textInput = false;
+            isPositioning = false;
 
             bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruRight, 82, 82);
             bm.MakeTransparent(Color.White);
@@ -339,6 +357,45 @@ namespace WinFormsApp2
                 case Keys.Tab:
                     performeTabControl();
                     break;
+                case Keys.Right:
+                    if (isPositioning) 
+                    {
+                        kenguru.currentDirection = Kenguru.directions.R;
+                        jump();
+                        
+                    }
+                    break;
+                case Keys.Left:
+                    if (isPositioning)
+                    {
+                        kenguru.currentDirection = Kenguru.directions.L;
+                        jump();
+
+                    }
+                    break;
+                case Keys.Down:
+                    if (isPositioning)
+                    {
+                        kenguru.currentDirection = Kenguru.directions.D;
+                        jump();
+
+                    }
+                    break;
+                case Keys.Up:
+                    if (isPositioning)
+                    {
+                        kenguru.currentDirection = Kenguru.directions.U;
+                        jump();
+
+                    }
+                    break;
+                case Keys.Enter:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        kenguru.currentSprites[i] = kenguru.kenguruSprites[i];
+                        turn();
+                    }
+                    break;
             }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -347,6 +404,7 @@ namespace WinFormsApp2
         }
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
+            textInput = true;
             setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
         }
         private void Form1_Click(object sender, EventArgs e)
@@ -357,6 +415,7 @@ namespace WinFormsApp2
             }
             else
             {
+                textInput = false;
                 setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
             }
 
