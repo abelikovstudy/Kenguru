@@ -58,21 +58,19 @@ namespace WinFormsApp2
 
                 case directions.U:
                     currentDirection = directions.L;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruLeft, 48, 48);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruLeft, 82, 82);
                     break; 
                 case directions.D:
                     currentDirection = directions.R;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruRight, 48, 48);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruRight, 82, 82);
                     break; 
                 case directions.L:
                     currentDirection= directions.D;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruDown, 48, 48);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruDown, 82, 82);
                     break;
                 case directions.R:
                     currentDirection = directions.U;
-                    posX -= 8;
-                    posY -= 28;
-                    bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruUp, 48, 48);
+                    bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruUp, 82, 82);
 
                     break;
             }

@@ -26,21 +26,9 @@ namespace WinFormsApp2
         public void Draw()
         {
             if (draw)
-                switch (kenguru.currentDirection) 
-                {
-                    case Kenguru.directions.R:
-                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX - 10 , kenguru.posY + 25));
-                        break;                    
-                    case Kenguru.directions.L:
-                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 20, kenguru.posY + 25));
-                        break;                    
-                    case Kenguru.directions.U:
-                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 8 , kenguru.posY + 28));
-                        break;                    
-                    case Kenguru.directions.D:
-                        drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 20, kenguru.posY + 20));
-                        break;
-                }
+                     drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 25, kenguru.posY + 25));
+
+
         }
         private void step()
         {
@@ -165,7 +153,7 @@ namespace WinFormsApp2
             whileCondition = false;
             elseCondition = false;
 
-            bm = new Bitmap(WinFormsApp2.Properties.Resources.kenguruRight, 48, 48);
+            bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruRight, 82, 82);
             bm.MakeTransparent(Color.White);
             pen = new Pen(Color.Red, 1);
             InitializeComponent();
