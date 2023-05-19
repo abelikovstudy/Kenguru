@@ -9,19 +9,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 namespace WinFormsApp2
 {
 
-    public class VerticalProgressBar : ProgressBar
-    {
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.Style |= 0x04;
-                return cp;
-            }
-        }
-    }
-
     public partial class Roo : Form
     {
         bool draw, tabulation, elseCondition, whileCondition, endCondition, textInput, isPositioning, changeSpeed;
@@ -200,17 +187,12 @@ namespace WinFormsApp2
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MaximizeBox = false;
-            VerticalProgressBar vpb = new VerticalProgressBar();
-            vpb.Value = 5;
-            vpb.Maximum = 20;
-            vpb.Minimum = 1;
 
 
-            for (int i = 0; i < 15; i++)
-            {
-                progressBar1.PerformStep();
-            }
-
+            label1.Visible = false;
+            label2.Visible = false;
+            verticalProgressBar1.Visible = false;
+            verticalProgressBar1.Value = 5;
             for (int i = 0; i < 9; i++)
             {
                 functions.Add(() => { });
@@ -343,6 +325,24 @@ namespace WinFormsApp2
             }
             functions[8]();
         }
+
+        private void speed() 
+        {
+            if (changeSpeed)
+            {
+                label1.Visible = true;
+                label2.Visible = true;
+                verticalProgressBar1.Visible = true;
+            }
+            else
+            {
+
+                label1.Visible = false;
+                label2.Visible = false;
+                verticalProgressBar1.Visible = false;
+            }
+        }
+
         private void PerformeToolsMenuItemClick(Keys key)
         {
             switch (key)
@@ -407,6 +407,15 @@ namespace WinFormsApp2
                     }
                     break;
                 case Keys.Down:
+
+                    if (changeSpeed && kenguru.speed > 1 && kenguru.speed <= 20)
+                    {
+
+                        kenguru.speed -= 1;
+                        verticalProgressBar1.Value -= 1;
+                        verticalProgressBar1.Refresh();
+                    }
+
                     if (isPositioning)
                     {
                         kenguru.currentDirection = Kenguru.directions.D;
@@ -416,6 +425,15 @@ namespace WinFormsApp2
                     }
                     break;
                 case Keys.Up:
+
+                    if (changeSpeed && kenguru.speed > 1 && kenguru.speed <= 20)
+                    {
+
+                        kenguru.speed += 1;
+                        verticalProgressBar1.Value += 1;
+                        verticalProgressBar1.Refresh();
+                    }
+
                     if (isPositioning)
                     {
                         kenguru.currentDirection = Kenguru.directions.U;
@@ -432,7 +450,9 @@ namespace WinFormsApp2
                     }
                     break;
                 case Keys.ControlKey:
-                    MessageBox.Show("");
+                    changeSpeed = !changeSpeed;
+                    speed();
+
                     break;
             }
         }
@@ -492,7 +512,12 @@ namespace WinFormsApp2
 
                         break;
                     case Keys.Down:
-
+                        if (changeSpeed && kenguru.speed > 1 && kenguru.speed <= 20) 
+                        {
+                            kenguru.speed += 1;
+                            verticalProgressBar1.Value += 1;
+                            verticalProgressBar1.Refresh();
+                        }
                         kenguru.currentDirection = Kenguru.directions.D;
                         kenguru.Rotate(ref bm, Kenguru.directions.D);
                         jump();
@@ -500,7 +525,13 @@ namespace WinFormsApp2
 
                         break;
                     case Keys.Up:
+                        if (changeSpeed && kenguru.speed > 1 &&  kenguru.speed <= 20) 
+                        {
 
+                            kenguru.speed -= 1;
+                            verticalProgressBar1.Value -= 1;
+                            verticalProgressBar1.Refresh();
+                        }
                         kenguru.currentDirection = Kenguru.directions.U;
                         kenguru.Rotate(ref bm, Kenguru.directions.U);
                         jump();
@@ -514,6 +545,19 @@ namespace WinFormsApp2
         private void progressBar1_Click(object sender, EventArgs e)
         {
 
+        }
+    }
+
+    public class VerticalProgressBar : ProgressBar
+    {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style |= 0x04;
+                return cp;
+            }
         }
     }
 }

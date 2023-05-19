@@ -40,7 +40,9 @@
             toolStripMenuItem7 = new ToolStripMenuItem();
             toolStripMenuItem8 = new ToolStripMenuItem();
             toolStripMenuItem9 = new ToolStripMenuItem();
-            progressBar1 = new ProgressBar();
+            verticalProgressBar1 = new VerticalProgressBar();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -150,14 +152,36 @@
             toolStripMenuItem9.Text = "Конец F9";
             toolStripMenuItem9.Click += toolStripMenuItem9_Click;
             // 
-            // progressBar1
+            // verticalProgressBar1
             // 
-            progressBar1.Location = new Point(314, 38);
-            progressBar1.Name = "progressBar1";
-            progressBar1.RightToLeft = RightToLeft.Yes;
-            progressBar1.Size = new Size(100, 23);
-            progressBar1.TabIndex = 9;
-            progressBar1.Click += progressBar1_Click;
+            verticalProgressBar1.ForeColor = Color.Orchid;
+            verticalProgressBar1.Location = new Point(315, 61);
+            verticalProgressBar1.Name = "verticalProgressBar1";
+            verticalProgressBar1.Size = new Size(100, 490);
+            verticalProgressBar1.Style = ProgressBarStyle.Continuous;
+            verticalProgressBar1.TabIndex = 10;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.ForeColor = SystemColors.Window;
+            label1.Location = new Point(334, 36);
+            label1.Name = "label1";
+            label1.Size = new Size(62, 21);
+            label1.TabIndex = 11;
+            label1.Text = "Быстро";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.ForeColor = SystemColors.Window;
+            label2.Location = new Point(323, 554);
+            label2.Name = "label2";
+            label2.Size = new Size(84, 21);
+            label2.TabIndex = 12;
+            label2.Text = "Медленно";
             // 
             // Roo
             // 
@@ -165,7 +189,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1076, 584);
-            Controls.Add(progressBar1);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(verticalProgressBar1);
             Controls.Add(textBox1);
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
@@ -199,6 +225,8 @@
         private ToolStripMenuItem toolStripMenuItem7;
         private ToolStripMenuItem toolStripMenuItem8;
         private ToolStripMenuItem toolStripMenuItem9;
-        private ProgressBar progressBar1;
+        private VerticalProgressBar verticalProgressBar1;
+        private Label label1;
+        private Label label2;
     }
 }
