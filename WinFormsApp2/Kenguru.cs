@@ -11,7 +11,7 @@ namespace WinFormsApp2
 {
     class Kenguru
     {
-        public Form1 form;
+        public Roo form;
         public int posX { get; set; }
         public int posY { get; set; }
 
@@ -23,7 +23,7 @@ namespace WinFormsApp2
         public directions currentDirection = directions.R;
         public int fieldHeight { get; set; }
         public int fieldWidth { get; set; }
-
+        public int speed = 5;
         public Kenguru(int _width, int _height)
         {
 
@@ -92,6 +92,33 @@ namespace WinFormsApp2
             bm.MakeTransparent(Color.White);
         }
 
+        public void Rotate(ref Bitmap bm, directions dir) 
+        {
+            switch (dir)
+            {
+
+                case directions.U:
+                    currentDirection = directions.U;
+                    bm = currentSprites[3];
+                    break;
+                case directions.D:
+                    currentDirection = directions.D;
+                    bm = currentSprites[2];
+                    break;
+                case directions.L:
+                    currentDirection = directions.L;
+                    bm = currentSprites[0];
+                    break;
+                case directions.R:
+                    currentDirection = directions.R;
+                    bm = currentSprites[1];
+
+                    break;
+            }
+            bm.MakeTransparent(Color.White);
+        }
+    
+
         public void step() 
         {
             switch (currentDirection)
@@ -100,7 +127,7 @@ namespace WinFormsApp2
                 case directions.U:
                     for(int i = 0; i < 10; ++i) 
                     {
-                        Thread.Sleep(5);
+                        Thread.Sleep(speed);
                         moveUp();
                         form.Draw();
                     }
@@ -108,7 +135,7 @@ namespace WinFormsApp2
                 case directions.D:
                     for (int i = 0; i < 10; ++i)
                     {
-                        Thread.Sleep(5);
+                        Thread.Sleep(speed);
                         moveDown();
                         form.Draw();
                     }
@@ -116,7 +143,7 @@ namespace WinFormsApp2
                 case directions.L:
                     for (int i = 0; i < 10; ++i)
                     {
-                        Thread.Sleep(5);
+                        Thread.Sleep(speed);
                         moveLeft();
                         form.Draw();
                     }
@@ -124,7 +151,7 @@ namespace WinFormsApp2
                 case directions.R:
                     for (int i = 0; i < 10; ++i)
                     {
-                        Thread.Sleep(5);
+                        Thread.Sleep(speed);
                         moveRight();
                         form.Draw();
                     }

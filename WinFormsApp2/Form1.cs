@@ -8,9 +8,23 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace WinFormsApp2
 {
-    public partial class Form1 : Form
+
+    public class VerticalProgressBar : ProgressBar
     {
-        bool draw, tabulation, elseCondition, whileCondition, endCondition, textInput, isPositioning;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style |= 0x04;
+                return cp;
+            }
+        }
+    }
+
+    public partial class Roo : Form
+    {
+        bool draw, tabulation, elseCondition, whileCondition, endCondition, textInput, isPositioning, changeSpeed;
         enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, EndCommandControl, TabControl };
         List<Action> functions = new List<Action>();
         List<Tuple<int, int>> drawingMatrix;
@@ -26,7 +40,7 @@ namespace WinFormsApp2
         public void Draw()
         {
             if (draw)
-                     drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 25, kenguru.posY + 25));
+                drawingMatrix.Add(new Tuple<int, int>(kenguru.posX + 25, kenguru.posY + 25));
         }
         private void step()
         {
@@ -121,7 +135,8 @@ namespace WinFormsApp2
                 case MenuControl.TabControl:
                     functions[0] = () => { Intrepretator.execute(textBox1.Text, ref kenguru, ref bm, ref pictureBox1); };
                     functions[1] = () => { MessageBox.Show("2"); };
-                    functions[2] = () => {
+                    functions[2] = () =>
+                    {
                         isPositioning = true;
                         for (int i = 0; i < 4; i++)
                         {
@@ -145,13 +160,13 @@ namespace WinFormsApp2
             tabulation = !tabulation;
             if (tabulation)
                 setMenus(MenuControl.TabControl, "Пуск F1", "Отладка F2", "Установка F3", "Разное F4", "Результат F5", "", "", "", "");
-            else 
+            else
             {
                 if (textBox1.Text != "" || textInput)
                 {
                     setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
                 }
-                else 
+                else
                 {
 
                     setMenus(MenuControl.MoveControl, "Шаг F1", "Прыжок F2", "Поворот F3", "", "", "", "", "", "");
@@ -159,7 +174,7 @@ namespace WinFormsApp2
             }
 
         }
-        public Form1()
+        public Roo()
         {
             drawingMatrix = new List<Tuple<int, int>>();
 
@@ -170,6 +185,7 @@ namespace WinFormsApp2
             elseCondition = false;
             textInput = false;
             isPositioning = false;
+            changeSpeed = false;
 
             bm = new Bitmap(WinFormsApp2.Properties.Resources.CkenguruRight, 82, 82);
             bm.MakeTransparent(Color.White);
@@ -177,9 +193,24 @@ namespace WinFormsApp2
             InitializeComponent();
             kenguru = new Kenguru(pictureBox1.Size.Width, pictureBox1.Size.Height);
             intp = new Intrepretator();
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MaximizeBox = false;
+            VerticalProgressBar vpb = new VerticalProgressBar();
+            vpb.Value = 5;
+            vpb.Maximum = 20;
+            vpb.Minimum = 1;
+
+
+            for (int i = 0; i < 15; i++)
+            {
+                progressBar1.PerformStep();
+            }
+
             for (int i = 0; i < 9; i++)
             {
                 functions.Add(() => { });
@@ -358,17 +389,19 @@ namespace WinFormsApp2
                     performeTabControl();
                     break;
                 case Keys.Right:
-                    if (isPositioning) 
+                    if (isPositioning)
                     {
                         kenguru.currentDirection = Kenguru.directions.R;
+                        kenguru.Rotate(ref bm, Kenguru.directions.R);
                         jump();
-                        
+
                     }
                     break;
                 case Keys.Left:
                     if (isPositioning)
                     {
                         kenguru.currentDirection = Kenguru.directions.L;
+                        kenguru.Rotate(ref bm, Kenguru.directions.L);
                         jump();
 
                     }
@@ -377,6 +410,7 @@ namespace WinFormsApp2
                     if (isPositioning)
                     {
                         kenguru.currentDirection = Kenguru.directions.D;
+                        kenguru.Rotate(ref bm, Kenguru.directions.D);
                         jump();
 
                     }
@@ -385,6 +419,7 @@ namespace WinFormsApp2
                     if (isPositioning)
                     {
                         kenguru.currentDirection = Kenguru.directions.U;
+                        kenguru.Rotate(ref bm, Kenguru.directions.U);
                         jump();
 
                     }
@@ -395,6 +430,9 @@ namespace WinFormsApp2
                         kenguru.currentSprites[i] = kenguru.kenguruSprites[i];
                         turn();
                     }
+                    break;
+                case Keys.ControlKey:
+                    MessageBox.Show("");
                     break;
             }
         }
@@ -422,6 +460,58 @@ namespace WinFormsApp2
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Кенгуру_SizeChanged(object sender, EventArgs e)
+        {
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void Кенгуру_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (isPositioning)
+            {
+                switch (e.KeyCode)
+                {
+
+                    case Keys.Right:
+
+                        kenguru.currentDirection = Kenguru.directions.R;
+                        kenguru.Rotate(ref bm, Kenguru.directions.R);
+                        jump();
+
+
+                        break;
+                    case Keys.Left:
+                        kenguru.currentDirection = Kenguru.directions.L;
+                        kenguru.Rotate(ref bm, Kenguru.directions.L);
+                        jump();
+
+
+                        break;
+                    case Keys.Down:
+
+                        kenguru.currentDirection = Kenguru.directions.D;
+                        kenguru.Rotate(ref bm, Kenguru.directions.D);
+                        jump();
+
+
+                        break;
+                    case Keys.Up:
+
+                        kenguru.currentDirection = Kenguru.directions.U;
+                        kenguru.Rotate(ref bm, Kenguru.directions.U);
+                        jump();
+
+
+                        break;
+                }
+            }
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
         {
 
         }
