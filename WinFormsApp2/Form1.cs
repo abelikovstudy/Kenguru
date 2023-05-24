@@ -193,6 +193,9 @@ namespace WinFormsApp2
             label2.Visible = false;
             verticalProgressBar1.Visible = false;
             verticalProgressBar1.Value = 5;
+
+            menuStrip1.Select();
+
             for (int i = 0; i < 9; i++)
             {
                 functions.Add(() => { });
@@ -326,7 +329,7 @@ namespace WinFormsApp2
             functions[8]();
         }
 
-        private void speed() 
+        private void speed()
         {
             if (changeSpeed)
             {
@@ -454,6 +457,12 @@ namespace WinFormsApp2
                     speed();
 
                     break;
+                case Keys.S:
+                    saveFile();
+                    break;
+                case Keys.O:
+                    loadFile();
+                    break;
             }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -512,7 +521,7 @@ namespace WinFormsApp2
 
                         break;
                     case Keys.Down:
-                        if (changeSpeed && kenguru.speed > 1 && kenguru.speed <= 20) 
+                        if (changeSpeed && kenguru.speed > 1 && kenguru.speed <= 20)
                         {
                             kenguru.speed += 1;
                             verticalProgressBar1.Value += 1;
@@ -525,7 +534,7 @@ namespace WinFormsApp2
 
                         break;
                     case Keys.Up:
-                        if (changeSpeed && kenguru.speed > 1 &&  kenguru.speed <= 20) 
+                        if (changeSpeed && kenguru.speed > 1 && kenguru.speed <= 20)
                         {
 
                             kenguru.speed -= 1;
@@ -544,6 +553,37 @@ namespace WinFormsApp2
 
         private void progressBar1_Click(object sender, EventArgs e)
         {
+
+        }
+
+
+        private void saveFile()
+        {
+            SaveFileDialog.Filter = "Roo commands file(*.roo)|*.roo|Text file(*.txt)|*.txt";
+            if (textBox1.Text.Trim().Length == 0)
+            {
+                MessageBox.Show("Файл не может быть пустым!");
+            }
+            else
+            {
+                if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filename = SaveFileDialog.FileName;
+
+                    System.IO.File.WriteAllText(filename, textBox1.Text);
+                }
+            }
+
+            
+        }
+        private void loadFile()
+        {
+            OpenFileDialog.Filter = "Roo commands file(*.roo)|*.roo|Text file(*.txt)|*.txt";
+            if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filename = OpenFileDialog.FileName;
+                textBox1.Text = System.IO.File.ReadAllText(filename);
+            }
 
         }
     }

@@ -43,6 +43,8 @@
             verticalProgressBar1 = new VerticalProgressBar();
             label1 = new Label();
             label2 = new Label();
+            SaveFileDialog = new SaveFileDialog();
+            OpenFileDialog = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -183,6 +185,10 @@
             label2.TabIndex = 12;
             label2.Text = "Медленно";
             // 
+            // OpenFileDialog
+            // 
+            OpenFileDialog.FileName = "openFileDialog1";
+            // 
             // Roo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -228,5 +234,7 @@
         private VerticalProgressBar verticalProgressBar1;
         private Label label1;
         private Label label2;
+        private SaveFileDialog SaveFileDialog;
+        private OpenFileDialog OpenFileDialog;
     }
 }
