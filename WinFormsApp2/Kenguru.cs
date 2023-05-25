@@ -219,7 +219,7 @@ namespace WinFormsApp2
         }
         public bool moveRight()
         {
-            if (posX < fieldWidth - 32)
+            if (posX < fieldWidth - 82)
             {
                 posX += 1;
                 return true;

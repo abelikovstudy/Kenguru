@@ -12,7 +12,7 @@ namespace WinFormsApp2
     public partial class Roo : Form
     {
         bool draw, tabulation, elseCondition, whileCondition, endCondition, textInput, isPositioning, changeSpeed;
-        enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, EndCommandControl, TabControl };
+        enum MenuControl { MoveControl, TextControl, ElseControl, WhileControl, EndCommandControl, TabControl, OptionsControl};
         List<Action> functions = new List<Action>();
         List<Tuple<int, int>> drawingMatrix;
         Kenguru kenguru;
@@ -131,8 +131,19 @@ namespace WinFormsApp2
                             turn();
                         }
                     };
-                    functions[3] = () => { MessageBox.Show("4"); };
+                    functions[3] = () => { setMenus(MenuControl.OptionsControl, "Сохранить F1", "Загрузить F2", "Очистка F3", "", "", "", "", "", ""); };
                     functions[4] = () => { MessageBox.Show("5"); };
+                    functions[5] = () => { };
+                    functions[6] = () => { };
+                    functions[7] = () => { };
+                    functions[8] = () => { };
+                    break;
+                case MenuControl.OptionsControl:
+                    functions[0] = () => { saveFile(); };
+                    functions[1] = () => { loadFile(); };
+                    functions[2] = () =>  { wipe(); };
+                    functions[3] = () => { };
+                    functions[4] = () => { };
                     functions[5] = () => { };
                     functions[6] = () => { };
                     functions[7] = () => { };
@@ -153,6 +164,7 @@ namespace WinFormsApp2
                 {
                     setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
                 }
+
                 else
                 {
 
@@ -277,17 +289,20 @@ namespace WinFormsApp2
         }
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            elseCondition = !elseCondition;
+            functions[3]();
             if (elseCondition)
             {
+                elseCondition = false;
                 setMenus(MenuControl.ElseControl, "впереди край то F1", "впереди не край то F2", "", "", "", "", "", "", "");
             }
-            else
+            if (textInput) 
             {
                 setMenus(MenuControl.TextControl, "Шаг F1", "Прыжок F2", "Поворот F3", "Если F4", "Иначе F5", "Пока F6", "Сделай F7", "Процедура F8", "Конец F9");
             }
-
-            functions[3]();
+            else
+            {
+                setMenus(MenuControl.OptionsControl, "Сохранить F1", "Загрузить F2", "Очистка F3", "", "", "", "", "", "");
+            }
 
         }
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
@@ -350,6 +365,7 @@ namespace WinFormsApp2
         {
             switch (key)
             {
+                
                 case Keys.F1:
                     draw = true;
                     toolStripMenuItem1.PerformClick();
@@ -455,13 +471,6 @@ namespace WinFormsApp2
                 case Keys.ControlKey:
                     changeSpeed = !changeSpeed;
                     speed();
-
-                    break;
-                case Keys.S:
-                    saveFile();
-                    break;
-                case Keys.O:
-                    loadFile();
                     break;
             }
         }
@@ -568,6 +577,8 @@ namespace WinFormsApp2
             {
                 if (SaveFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    SaveFileDialog.InitialDirectory = "c:\\";
+                    SaveFileDialog.RestoreDirectory = true;
                     string filename = SaveFileDialog.FileName;
 
                     System.IO.File.WriteAllText(filename, textBox1.Text);
@@ -579,14 +590,28 @@ namespace WinFormsApp2
         private void loadFile()
         {
             OpenFileDialog.Filter = "Roo commands file(*.roo)|*.roo|Text file(*.txt)|*.txt";
+            OpenFileDialog.FileName = "";
             if (OpenFileDialog.ShowDialog() == DialogResult.OK)
             {
+                OpenFileDialog.InitialDirectory = "c:\\";
+                OpenFileDialog.FilterIndex = 2;
+                OpenFileDialog.RestoreDirectory = true;
                 string filename = OpenFileDialog.FileName;
                 textBox1.Text = System.IO.File.ReadAllText(filename);
             }
 
         }
+        private void wipe()
+        {
+            drawingMatrix.Clear();
+            kenguru.posX = 32;
+            kenguru.posY = 32;
+            kenguru.Rotate(ref bm, Kenguru.directions.R);
+            render();
+        }
     }
+
+
 
     public class VerticalProgressBar : ProgressBar
     {
